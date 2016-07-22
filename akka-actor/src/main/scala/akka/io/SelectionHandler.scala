@@ -267,7 +267,8 @@ private[io] class SelectionHandler(settings: SelectionHandlerSettings) extends A
                 case ie: java.lang.reflect.InvocationTargetException ⇒ ie.getTargetException.toString
                 case t: Throwable                                    ⇒ Logging.simpleName(t)
               }
-            case e ⇒ e.getMessage
+            case e if e.getMessage ne null ⇒ e.getMessage
+            case e ⇒ e.toString
           }
           context.system.eventStream.publish(
             Logging.Debug(child.path.toString, classOf[SelectionHandler], logMessage))
